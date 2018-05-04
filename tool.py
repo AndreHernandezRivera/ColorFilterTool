@@ -64,11 +64,11 @@ def on_change(val, type_val, *args, **kwargs):
     c_filter.update(type_val, val)
 
 
-def main(path):
+def main(path, fmt=None):
     if os.path.isfile(path):
         file_names = [path]
     else:
-        file_names = sorted(glob.glob(path), key=partial(the_key, name='capture_'))
+        file_names = sorted(glob.glob(path), key=partial(the_key, name=fmt))
     cv2.namedWindow('Example')
     cv2.createTrackbar('H min', 'Example', 0, 180, partial(on_change, type_val='hmin'))
     cv2.createTrackbar('H max', 'Example', 0, 180, partial(on_change, type_val='hmax'))
@@ -94,4 +94,5 @@ def main(path):
 
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    optional_name = sys.argv[2] if len(sys.argv > 2) else None
+    main(sys.argv[1], optional_name)
